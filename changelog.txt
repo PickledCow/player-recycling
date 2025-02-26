@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.2
+Date: 22. 02. 2025
+  Minor Features:
+    - Added a toggle for showing the icon on your own player, toggleable for each player during run-time. This is applied the next time you enter a recycler.
+---------------------------------------------------------------------------------------------------
 Version: 1.0.1
 Date: 20. 02. 2025
   Minor Features:

@@ -218,17 +218,17 @@ function recycle_player(i, kill_player)
     --- Move the player to the output slot of the recycler
     player.character.teleport(player_drop_point[tostring(i)])
 
-    -- Draw quality sprite for the player
-    if quality ~= "normal" then
-        local badge = rendering.draw_sprite({
+    -- Draw quality sprite for the player if they haven't opt-ed out of it
+    if quality ~= "normal" and settings.get_player_settings(i)["player-recycling-show-quality-icon"].value then
+        rendering.draw_sprite({
             sprite = "quality/"..quality,
             target = { entity=player.character, offset = {-0.25, 0.0625} },
             surface = player.character.surface,
             players = {player},
             x_scale = 0.25,
             y_scale = 0.25,
+            only_in_alt_mode = true,
         })
-        badge.only_in_alt_mode = true
     end
 
     -- Copy inventory over from the old player
