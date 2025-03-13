@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.3
+Date: 13. 03. 2025
+  Bugfixes:
+    - Fixed a bug where in multiplayer if another player mined a recycler while it is recycling a player it would have the player trapped in purgatory.
+---------------------------------------------------------------------------------------------------
 Version: 1.0.2
 Date: 22. 02. 2025
   Minor Features:

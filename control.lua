@@ -319,6 +319,20 @@ script.on_event(defines.events.on_entity_died,function(event)
     end
 end)
 
+-- Instantly kills the player if the recycler the player is picked up
+script.on_event(defines.events.on_player_mined_entity,function(event)
+    if event.entity == nil then return end
+    if event.entity.prototype.name == "recycler" then
+        for i=1,max_players,1 do
+            if culprit_recycler[tostring(i)] == event.entity then
+                recycle_player(i, true)
+                return
+            end
+        end
+
+    end
+end)
+
 script.on_event(defines.events.on_gui_closed,function(event)
     if event.entity == nil then return end
     if event.entity.prototype.name == "recycler" then
