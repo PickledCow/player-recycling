@@ -8,6 +8,8 @@ data:extend({{
     hidden_in_factoriopedia = true,
     -- Massive values to prevent moving
     braking_power = "1TW",
+    braking_force = math.huge,
+    friction_force = math.huge,
     energy_per_hit_point = 0,
     friction = math.huge,
     weight = math.huge,

@@ -39,6 +39,19 @@ for i = 1,max_players,1 do
             },
             -- Emergency spoilage to respawn the player
             spoil_ticks = 300,
+            spoil_to_trigger_result = {
+                items_per_trigger = 1,
+                trigger = {
+                    type = "direct",
+                    action_delivery = {
+                        type = "instant",
+                        source_effects = {
+                            type = "script",
+                            effect_id = "player-recycling-event-"..tostring(i)
+                        }
+                    }
+                }
+            }
         },
         -- Recycling instant spoil item to trigger player character recycling
         {

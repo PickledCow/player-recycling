@@ -57,6 +57,10 @@ local player_recycling_productivity = {
           1
         },
         {
+          "space-science-pack",
+          1
+        },
+        {
           "agricultural-science-pack",
           1
         },
@@ -79,14 +83,14 @@ local player_recycling_quality = {
         use_icon_overlay_constant = false,
         icons = {
             {
-                icon = "__quality__/graphics/icons/recycling.png"
+                icon = "__recycler__/graphics/icons/recycling.png"
             },
             {
                 icon = "__core__/graphics/icons/entity/character.png",
                 scale = 0.4
             },
             {
-                icon = "__quality__/graphics/icons/recycling-top.png"
+                icon = "__recycler__/graphics/icons/recycling-top.png"
             },
             {
                 icon = "__core__/graphics/icons/any-quality.png",
@@ -146,6 +150,10 @@ local player_recycling_quality = {
         },
         {
           "utility-science-pack",
+          1
+        },
+        {
+          "space-science-pack",
           1
         },
         {

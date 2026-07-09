@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.5
+Date: 09. 07. 2026
+  Info:
+     - Ported to Factorio 2.1.
+---------------------------------------------------------------------------------------------------
+Version: 1.0.4
+Date: 13. 03. 2025
+  Bugfixes:
+    - Fixed a bug where not all cases of the output being blocked was being checked when denying entry.
+    - Fixed the emergency recycling condition not properly saving the player from purgatory. This should fix cases where the recycler runs out of power causing the player to be trapped forever.
+---------------------------------------------------------------------------------------------------
 Version: 1.0.3
 Date: 13. 03. 2025
   Bugfixes:

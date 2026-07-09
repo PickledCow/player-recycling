@@ -45,7 +45,7 @@ script.on_event(defines.events.on_gui_click, function(event)
             {recycler.drop_position.x - 0.5, recycler.drop_position.y - 0.5},
             {recycler.drop_position.x + 0.5, recycler.drop_position.y + 0.5}
         }
-        if recycler.surface.count_entities_filtered{area = scan_area, name = "item-on-ground"} > 0 then
+        if recycler.surface.count_entities_filtered{area = scan_area, invert = true, type = {"resource", "character-corpse", "explosion", "corpse", "character", "unit"}} > 0 then
             player.create_local_flying_text({
                 text={"item-limitation.player-recycling-recycler-blocked"},
                 create_at_cursor = true
@@ -195,7 +195,9 @@ function recycle_player(i, kill_player)
     local character = player_statis[tostring(i)]
     local quality = player_result_quality[tostring(i)]
 
-    assert(character ~= nil, "Character is nil.")
+    if character == nil then return end
+
+    -- assert(character ~= nil, "Character is nil.")
 
     -- Destroy the car the old character is riding
     if character.vehicle ~= nil then

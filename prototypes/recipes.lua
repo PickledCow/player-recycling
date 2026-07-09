@@ -52,7 +52,7 @@ for i = 1,max_players,1 do
     }
 
     character_recycling.results = {
-        { type = "item", name = "player-recycling-spoil-trigger-item-"..tostring(i), amount = 1, probability = 1 }
+        { type = "item", name = "player-recycling-spoil-trigger-item-"..tostring(i), amount = 1, independent_probability = 1 }
     }
     character_recycling.preserve_products_in_machine_output = true
 
