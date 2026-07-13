@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.7
+Date: 14. 07. 2026
+  Minor Features:
+    - Quality mechanic now applies to the vanilla method of getting quality characters.
+  Bugfixes:
+    - Removed debug messages from game chat.
+    - Fixed a bug where the player could enter a recycler while it was not powered and had to wait some time before being able to die and respawn.
+---------------------------------------------------------------------------------------------------
 Version: 1.0.6
 Date: 14. 07. 2026
   Bugfixes:

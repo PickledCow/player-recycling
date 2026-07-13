@@ -6,7 +6,7 @@ local qualities = { "normal", "uncommon", "rare", "epic", "legendary" }
 local quality_index = { normal=1, uncommon=2, rare=3, epic=4, legendary=5 }
 
 -- Holds onto player character while the recycler is running
-local player_statis = {}
+local player_statis = {} -- "status", typo we just gotta live with
 local player_drop_point = {}
 local culprit_recycler = {}
 local player_result_quality = {}
@@ -64,6 +64,14 @@ script.on_event(defines.events.on_gui_click, function(event)
         if player.crafting_queue_size > 0 then
             player.create_local_flying_text({
                 text={"item-limitation.player-recycling-player-crafting"},
+                create_at_cursor = true
+            })        
+            return
+        end
+        -- Check recycler is powered
+        if recycler.is_connected_to_electric_network() == false then
+            player.create_local_flying_text({
+                text={"item-limitation.player-recycling-recycler-not-powered"},
                 create_at_cursor = true
             })        
             return
@@ -187,22 +195,7 @@ if player == nil then return end
     player.gui.relative.player_recycling_ui_main_frame.destroy() --Removes the UI
 end
 
-function recycle_player(i, kill_player)
-    local player = game.players[i]
-    local character = player_statis[tostring(i)]
-    local quality = player_result_quality[tostring(i)]
-
-
-
-    if character == nil then return end
-
-    -- assert(character ~= nil, "Character is nil.")
-
-    -- Destroy the car the old character is riding
-    if character.vehicle ~= nil then
-        character.vehicle.destroy()
-    end
-
+function upgrade_character(i, player, character, quality, teleport_to_recycler)
     -- Create the new character entity
     local character_name = "character"
     if quality ~= "normal" then
@@ -217,7 +210,9 @@ function recycle_player(i, kill_player)
     player.character = nil
     player.create_character({name=character_name, quality=quality})
     --- Move the player to the output slot of the recycler
-    player.character.teleport(player_drop_point[tostring(i)])
+    if teleport_to_recycler then
+        player.character.teleport(player_drop_point[tostring(i)])
+    end
 
     -- Draw quality sprite for the player if they haven't opt-ed out of it
     if quality ~= "normal" and settings.get_player_settings(i)["player-recycling-show-quality-icon"].value then
@@ -244,8 +239,6 @@ function recycle_player(i, kill_player)
         local new_inventory = player.character.get_inventory(inventory_index)
         if old_inventory == nil then break end
         if new_inventory == nil then break end
-
-
         for slot = 1, #old_inventory do
             if old_inventory[slot].valid_for_read then
                 assert(old_inventory[slot].swap_stack(new_inventory[slot]), _ .. "-" .. slot)
@@ -262,7 +255,6 @@ function recycle_player(i, kill_player)
         new_section.active = section.active
         new_section.multiplier = section.multiplier
         -- If the section we copied over had no name then we need to copy over the contents manually
-        game.print(section.group)
         if section.group == "" then
             for j,filter in ipairs(section.filters) do
                 new_section.set_slot(j, filter)
@@ -275,11 +267,28 @@ function recycle_player(i, kill_player)
         character.get_inventory(defines.inventory.character_armor)[1].clear()
     end
 
-
-    --- This should never happen but just in case 
+    -- Clears old character
     if character.valid then 
         character.mine()
     end
+end
+
+
+function recycle_player(i, kill_player)
+    local player = game.players[i]
+    local character = player_statis[tostring(i)]
+    local quality = player_result_quality[tostring(i)]
+
+    if character == nil then return end
+
+    -- assert(character ~= nil, "Character is nil.")
+
+    -- Destroy the car the old character is riding
+    if character.vehicle ~= nil then
+        character.vehicle.destroy()
+    end
+
+    upgrade_character(i, player, character, quality, true)
 
     -- Determine survival chance
     local rand1 = math.random()
@@ -314,6 +323,17 @@ function recycling_trigger(event)
             recycle_player(i, false)
             return
         end
+    end
+end
+
+-- Support for default respawn quality behaviour too, replace non-normal players with custom entities
+function upgrade_player_on_respawn(event)
+    local i = event.player_index
+    local player = game.players[i]
+    local character = player.character
+    local quality = character.quality.name
+    if quality ~= "normal" then
+        upgrade_character(i, player, character, quality, false)
     end
 end
 
@@ -367,5 +387,7 @@ script.on_event(defines.events.on_gui_opened,function(event)
     end
 
 end)
+
 script.on_event(defines.events.on_script_trigger_effect, recycling_trigger)
---
+
+script.on_event(defines.events.on_player_respawned, upgrade_player_on_respawn)
