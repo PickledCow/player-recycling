@@ -1,11 +1,11 @@
 {
   "name": "player-recycling",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "title": "Player Recycling (Quality Players)",
   "author": "PickledCow",
   "contact": "factorio@joon.id.au",
   "factorio_version": "2.1",
   "space_travel_required": true,
-  "dependencies": ["base >= 2.0", "space-age >= 1.0.0"],
+  "dependencies": ["base >= 2.1.10", "space-age >= 2.1.10"],
   "description": "Allows the player to jump in a recycler. Put quality modules in them and go gamble your life away towards a legendary life!"
 }

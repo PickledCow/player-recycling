@@ -55,6 +55,18 @@ character_epic.hidden_in_factoriopedia = true
 character_legendary.hidden = true
 character_legendary.hidden_in_factoriopedia = true
 
+-- craft speed
+character_uncommon.crafting_speed = 1.4
+character_rare.crafting_speed = 1.8
+character_epic.crafting_speed = 2.2
+character_legendary.crafting_speed = 3
+
+-- gun inventory size
+character_uncommon.guns_inventory_size = 4
+character_rare.guns_inventory_size = 5
+character_epic.guns_inventory_size = 6
+character_legendary.guns_inventory_size = 8
+
 -- build and reach distance (10)
 character_uncommon.build_distance = 12
 character_uncommon.reach_distance = 12
@@ -66,7 +78,6 @@ character_legendary.build_distance = 25
 character_legendary.reach_distance = 25
 
 -- healing (0.15), boosted even higher to make the bar go up faster considering boosted hp
--- 1, 1.3, 1.7, 2.2, 3
 character_uncommon.healing_per_tick = 0.15 * 1.3
 character_rare.healing_per_tick = 0.15 * 1.7
 character_epic.healing_per_tick = 0.15 * 2.2
@@ -84,13 +95,69 @@ character_rare.loot_pickup_distance = 3
 character_epic.loot_pickup_distance = 3.6
 character_legendary.loot_pickup_distance = 5
 
+-- item drop range (10)
+character_uncommon.drop_item_distance = 13
+character_rare.drop_item_distance = 16
+character_epic.drop_item_distance = 19
+character_legendary.drop_item_distance = 25
+
+-- vehicle enter distance (3)
+character_uncommon.enter_vehicle_distance = 4
+character_rare.enter_vehicle_distance = 5
+character_epic.enter_vehicle_distance = 6
+character_legendary.enter_vehicle_distance = 8
+
 -- mining distance (2.7)
 character_uncommon.reach_resource_distance = 3.375
 character_rare.reach_resource_distance = 4
 character_epic.reach_resource_distance = 5
 character_legendary.reach_resource_distance = 6.5
 
-local mining_speed_factors = { 1, 2, 3, 5, 8 }
+-- tool attack distance (1.5)
+character_uncommon.tool_attack_distance = 1.875
+character_rare.tool_attack_distance = 2.25
+character_epic.tool_attack_distance = 2.7
+character_legendary.tool_attack_distance = 3.75
+
+-- pickaxe damage (8)
+-- character_uncommon.tool_attack_result.action_delivery.target_effects.damage.amount = 10
+-- character_rare.tool_attack_result.action_delivery.target_effects.damage.amount = 13
+-- character_epic.tool_attack_result.action_delivery.target_effects.damage.amount = 16
+-- character_legendary.tool_attack_result.action_delivery.target_effects.damage.amount = 25
+
+character_uncommon.tool_attack_result.action_delivery.target_effects[2] = { amount = 2, type = "acid" }
+character_legendary.tool_attack_result.action_delivery.target_effects[3] = { amount = 2, type = "poison" }
+
+character_rare.tool_attack_result.action_delivery.target_effects[2] = { amount = 3, type = "acid" }
+character_rare.tool_attack_result.action_delivery.target_effects[3] = { amount = 3, type = "poison" }
+character_rare.tool_attack_result.action_delivery.target_effects[4] = { amount = 3, type = "explosion" }
+
+character_epic.tool_attack_result.action_delivery.target_effects[2] = { amount = 3, type = "acid" }
+character_epic.tool_attack_result.action_delivery.target_effects[3] = { amount = 3, type = "poison" }
+character_epic.tool_attack_result.action_delivery.target_effects[4] = { amount = 3, type = "explosion" }
+character_epic.tool_attack_result.action_delivery.target_effects[5] = { amount = 3, type = "fire" }
+
+character_legendary.tool_attack_result.action_delivery.target_effects[2] = { amount = 3, type = "acid" }
+character_legendary.tool_attack_result.action_delivery.target_effects[3] = { amount = 3, type = "poison" }
+character_legendary.tool_attack_result.action_delivery.target_effects[4] = { amount = 3, type = "explosion" }
+character_legendary.tool_attack_result.action_delivery.target_effects[5] = { amount = 3, type = "fire" }
+character_legendary.tool_attack_result.action_delivery.target_effects[6] = { amount = 3, type = "laser" }
+character_legendary.tool_attack_result.action_delivery.target_effects[7] = { amount = 3, type = "electric" }
+
+
+-- combat regen leave timer (600)
+character_uncommon.ticks_to_stay_in_combat = 500
+character_rare.ticks_to_stay_in_combat = 400
+character_epic.ticks_to_stay_in_combat = 300
+character_legendary.ticks_to_stay_in_combat = 100
+
+-- respawn timer (10)
+character_uncommon.respawn_time = 8
+character_rare.respawn_time = 7
+character_epic.respawn_time = 5
+character_legendary.respawn_time = 2
+
+local mining_speed_factors = { 1, 2.5, 4, 7, 12 }
 
 -- mining speed (0.5), boosted for comedy since it doesn't actually matter
 character_uncommon.mining_speed = 0.5 * mining_speed_factors[2]
@@ -98,28 +165,37 @@ character_rare.mining_speed = 0.5 * mining_speed_factors[3]
 character_epic.mining_speed = 0.5 * mining_speed_factors[4]
 character_legendary.mining_speed = 0.5 * mining_speed_factors[5]
 
--- mining animations (0.9 for first 3, 0.45 for 4th)
-for i = 1,3,1 do
-    for j = 1,3,1 do
-        character_uncommon.animations[i].mining_with_tool.layers[j].animation_speed = 0.9 * mining_speed_factors[2]
-        character_rare.animations[i].mining_with_tool.layers[j].animation_speed = 0.9 * mining_speed_factors[3]
-        character_epic.animations[i].mining_with_tool.layers[j].animation_speed = 0.9 * mining_speed_factors[4]
-        character_legendary.animations[i].mining_with_tool.layers[j].animation_speed = 0.9 * mining_speed_factors[5]
-    end
-end
+-- mining animations (0.9 for first 3, 0.45 for 4th being mech suit)
+
+-- No SERPENT PLACEHOLDER issue
 for j = 1,3,1 do
+    character_uncommon.animations[1].mining_with_tool.layers[j].animation_speed = 0.45 * mining_speed_factors[2]
+    character_rare.animations[1].mining_with_tool.layers[j].animation_speed = 0.45 * mining_speed_factors[3]
+    character_epic.animations[1].mining_with_tool.layers[j].animation_speed = 0.45 * mining_speed_factors[4]
+    character_legendary.animations[1].mining_with_tool.layers[j].animation_speed = 0.45 * mining_speed_factors[5]
+
     character_uncommon.animations[4].mining_with_tool.layers[j].animation_speed = 0.45 * mining_speed_factors[2]
     character_rare.animations[4].mining_with_tool.layers[j].animation_speed = 0.45 * mining_speed_factors[3]
     character_epic.animations[4].mining_with_tool.layers[j].animation_speed = 0.45 * mining_speed_factors[4]
     character_legendary.animations[4].mining_with_tool.layers[j].animation_speed = 0.45 * mining_speed_factors[5]
 end
 
--- run speed (0.15), nerfed because it's actually just uncontrollable
--- 1, 1.1, 1.225, 1.375, 1.575
-character_uncommon.running_speed = 0.15 * 1.1
-character_rare.running_speed = 0.15 * 1.225
-character_epic.running_speed = 0.15 * 1.375
-character_legendary.running_speed = 0.15 * 1.575
+-- whyyy
+local non_serpent = {3, 4, 6}
+for i = 2,3,1 do
+    for j = 1,3,1 do
+        character_uncommon.animations[i].mining_with_tool.layers[non_serpent[j]].animation_speed = 0.9 * mining_speed_factors[2]
+        character_rare.animations[i].mining_with_tool.layers[non_serpent[j]].animation_speed = 0.9 * mining_speed_factors[3]
+        character_epic.animations[i].mining_with_tool.layers[non_serpent[j]].animation_speed = 0.9 * mining_speed_factors[4]
+        character_legendary.animations[i].mining_with_tool.layers[non_serpent[j]].animation_speed = 0.9 * mining_speed_factors[5]
+    end
+end
+
+-- run speed (0.15)
+character_uncommon.running_speed = 0.15 * 1.2
+character_rare.running_speed = 0.15 * 1.4
+character_epic.running_speed = 0.15 * 1.6
+character_legendary.running_speed = 0.15 * 2
 
 -- flashlight size (25, 2)
 character_uncommon.light[1].size = 31.25

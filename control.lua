@@ -5,8 +5,6 @@ local max_players = settings.startup["player-recycling-max-players"].value
 local qualities = { "normal", "uncommon", "rare", "epic", "legendary" }
 local quality_index = { normal=1, uncommon=2, rare=3, epic=4, legendary=5 }
 
-local craft_speeds = { normal=1, uncommon=1.25, rare=1.5, epic=1.8, legendary=2.5 }
-
 -- Holds onto player character while the recycler is running
 local player_statis = {}
 local player_drop_point = {}
@@ -190,10 +188,11 @@ if player == nil then return end
 end
 
 function recycle_player(i, kill_player)
-
     local player = game.players[i]
     local character = player_statis[tostring(i)]
     local quality = player_result_quality[tostring(i)]
+
+
 
     if character == nil then return end
 
@@ -205,9 +204,9 @@ function recycle_player(i, kill_player)
     end
 
     -- Create the new character entity
-    local characte_name = "character"
+    local character_name = "character"
     if quality ~= "normal" then
-        characte_name = "player-recycling-character-"..quality
+        character_name = "player-recycling-character-"..quality
     end
     --- Change back the player's camera out of cutscene mode
     player.set_controller({
@@ -216,7 +215,7 @@ function recycle_player(i, kill_player)
     })
     --- Remove and replace the old character
     player.character = nil
-    player.create_character({name=characte_name, quality=quality})
+    player.create_character({name=character_name, quality=quality})
     --- Move the player to the output slot of the recycler
     player.character.teleport(player_drop_point[tostring(i)])
 
@@ -253,18 +252,34 @@ function recycle_player(i, kill_player)
             end
         end
         old_inventory.clear()
-        end
+    end 
 
+    -- Copy logistics over,f first deleting blank on the new 
+    player.character.get_logistic_sections().remove_section(1)
+    for i,section in ipairs(character.get_logistic_sections().sections) do
+        player.character.get_logistic_sections().add_section(section.group)
+        local new_section = player.character.get_logistic_sections().get_section(i)
+        new_section.active = section.active
+        new_section.multiplier = section.multiplier
+        -- If the section we copied over had no name then we need to copy over the contents manually
+        game.print(section.group)
+        if section.group == "" then
+            for j,filter in ipairs(section.filters) do
+                new_section.set_slot(j, filter)
+            end
+        end
+    end
+
+    -- Clean old inventory
     if character.valid then 
         character.get_inventory(defines.inventory.character_armor)[1].clear()
     end
+
+
     --- This should never happen but just in case 
     if character.valid then 
         character.mine()
     end
-
-    -- Apply bonuses that the prototype doesn't offer
-    player.character_crafting_speed_modifier = craft_speeds[quality]
 
     -- Determine survival chance
     local rand1 = math.random()

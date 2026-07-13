@@ -1,4 +1,22 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.6
+Date: 14. 07. 2026
+  Bugfixes:
+    - Players no longer lose their logistic groups upon recycling.
+  Balance Changes:
+    - Quality characters mine even faster than before.
+    - Quality characters are slightly faster than before.
+    - Quality characters now have more weapon slots.
+    - Quality characters can drop items farther away.
+    - Quality characters can attack with their pickaxe from farther away.
+    - Quality characters pickaxe does more damage per hit.
+    - Quality characters start regenerating health quicker exiting combat.
+    - Quality characters can ender vehicles from farther away.
+    - Quality characters respawn faster after death. Quality is still lost on death.
+  Info:
+     - Changed how the crafting speed bonus was applied. It now is applied to the prototype instead of after changing character entities.
+     - Vanilla quality player quality is being investigated and currently planning on how to integrate that system with this mod.
+---------------------------------------------------------------------------------------------------
 Version: 1.0.5
 Date: 09. 07. 2026
   Info:
